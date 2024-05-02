@@ -1,0 +1,45 @@
+.header {
+    font-size: 20px;
+    text-align: center;
+    margin-top: 170px;
+    font-family: monospace;
+}
+
+#menu-icon {
+
+}
+
+.navbar a {
+    margin: 0 10px;
+    /* Adjust the horizontal spacing between navbar links */
+}
+
+.navbar a {
+  text-decoration: none; /* Remove underline */
+  color: inherit; /* Inherit the color from the parent element */
+}
+
+.navbar a:hover {
+  color: inherit; /* Keep the hover color same as normal color */
+}
+
+.home-container,
+.home-container2 {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.home-box img {
+    width: 250px;
+    height: 250px;
+    background-color: aliceblue;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.social-media a {
+    color: green;
+}
