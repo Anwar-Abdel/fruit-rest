@@ -6,12 +6,13 @@ const methodOverride = require('method-override');
 //------------DATA--------------//
 // inside of fruits.js
 const {fruits} = require('./models/fruits');
-console.log(fruits);
+//console.log(fruits);
 const {meats} = require('./models/meats');
-console.log(meats);
+//console.log(meats);
 const {veggies} = require('./models/veggies');
-console.log(veggies);
-
+//console.log(veggies);
+const {snacks} = require("./models/snacks")
+console.log(snacks)
 // -----------MIDDLEWARE-------------//
 app.use(methodOverride('_method'));
 app.set('view engine', 'ejs');
@@ -144,6 +145,70 @@ app.delete('/fruits/:id', (req, res)=>{
     res.redirect('/fruits'); // redirect back to index page (/fruits)
 })
 
+
+app.get("/snacks", (req,res) => {
+    res.render("snacks/indexSnacks.ejs", {allSnacks: snacks})
+})
+
+app.get("/snacks/new", (req,res) => {
+  res.render("snacks/new.ejs")
+})
+
+app.get("/snacks/:indexOfSnacks", (req,res) => {
+    let number = parseInt(req.params.indexOfSnacks);
+    if(number >= snacks.length) {
+        res.render("404", {})
+    } else {
+        res.render("snacks/showSnacks", {snack: snacks[number], idNew: number})
+    }
+})
+
+//route for edit button
+
+app.get("/snacks/:snackId/editSnack", (req,res)=> {
+   // const newSnack = snacks[req.params.snackId]
+   // let number = parseInt(req.params.snackId);
+   let number = parseInt(req.params.snackId);
+   let newSnack = snacks[number]
+    //console.log(newSnack)
+ res.render("snacks/editSnack",{newSnack: newSnack, editId: number } )
+})
+
+app.get("/snacks/:deleteId/deleteSnack", (req,res)=> {
+    // const newSnack = snacks[req.params.snackId]
+    // let number = parseInt(req.params.snackId);
+    let delNumber = parseInt(req.params.deleteId);
+    let delSnack = snacks[delNumber]
+     //console.log(newSnack)
+  res.render("snacks/deleteSnack",{newSnack: delSnack, delId: delNumber} )
+ })
+
+app.post("/snacks", (req,res) => {
+    //res.render("snacks/new.ejs");
+  //  console.log("form body", req.body);
+  if(req.body.readyToEat === "on") {
+    req.body.readyToEat = true;
+  } else {
+    req.body.readyToEat = false;
+  }
+    snacks.push(req.body)
+    res.redirect("/snacks")
+})
+
+app.put("/snacks/:newId", (req,res) => {
+    if(req.body.readyToEat === "on") {
+        req.body.readyToEat =true;
+    } else {
+        req.body.readyToEat =false;
+    }
+    snacks[parseInt(req.params.newId)] = req.body;
+    res.redirect("/snacks")
+})
+
+app.delete("/snacks/:delId", (req,res) => {
+   snacks.splice(parseInt(req.params.delId), 1); 
+   res.redirect("/snacks")
+})
 //------------LISTEN FOR SERVER-------------//
 app.listen(PORT, () => {
     console.log("Server is listening!!!", PORT);
